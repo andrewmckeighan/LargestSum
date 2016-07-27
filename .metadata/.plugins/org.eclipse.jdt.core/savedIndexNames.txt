@@ -1,0 +1,18 @@
+INDEX VERSION 1.127+D:\andrew\Documents\workspace\311\HW3\.metadata\.plugins\org.eclipse.jdt.core
+151370422.index
+1123286075.index
+227566369.index
+682024530.index
+3194834250.index
+217156843.index
+2649191958.index
+3973355768.index
+4050454629.index
+781942300.index
+4033577123.index
+3727989422.index
+1012963179.index
+3135143574.index
+4161027599.index
+2025451164.index
+1410904804.index
