@@ -30,9 +30,6 @@ public class Main {
             numRows = Integer.parseInt(scan.next());
             //scan.nextLine();
             makeArray(numRows, scan);
-            if(!scan.hasNext()){
-                break;
-            }
         }
 
 	}

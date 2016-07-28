@@ -23,42 +23,10 @@ public class Main {
 	 */
     public static void main(String[] args) {
 
-        int numRows = 0;
+
         String read = "";
         Scanner scan = new Scanner(System.in);
-        while(scan.hasNext()){
-            numRows = Integer.parseInt(scan.next());
-            //scan.nextLine();
-            makeArray(numRows, scan);
-            if(!scan.hasNext()){
-                break;
-            }
-        }
 
 	}
 
-    public static void makeArray(int rows, Scanner scan){
-        int triangle[][] = new int[rows][rows];
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < rows; j++){
-                triangle[i][j] = -1;
-            }
-        }
-        for(int i = 0; i < rows; i++){
-            scan.nextLine();
-            for(int j = 0; j < rows; j++){
-                if(j <= i){
-                    triangle[i][j] = scan.nextInt();
-                }
-            }
-        }
-        
-        
-        
-    }
-    
-    public static void findBestPath(int triangle[][]){
-        
-    }
-    
 }
