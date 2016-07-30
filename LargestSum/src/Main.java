@@ -10,49 +10,44 @@ public class Main {
     
     public static ArrayList<String> FinalAnswer = new ArrayList<String>();
     
-    
-    /**
-	 *Given a triangle of positive integers, we want to find a largest possible sum along a path from top
-	 *row to bottom row. A path can go down either directly south or directly south-east (Note, you can
-     *NEVER go EAST, WEST, or NORTH etc). For example, in the triangle
-     *
-     *1
-     *2 3
-     *1 5 7
-     *9 1 1 2
-     *8 5 4 13 2
-     *
-     *the path 1→3→7→2→13 is a legal path with sum 26. This path is “best” because 26 is the largest
-     *such sum. Generally, suppose that the triangle is stored in an array A[1..n ,1..n] with the relevant
-     *entries being on the diagonal and below. For 1≤ ≤r n and 1≤ ≤c r let B[r,c] be the sum along the
-     *best path that ends in row r and column c of the matrix A.
-     *Example: B[1,1] = 1, B[2,1] = 3, B[2,2] = 4
-	 */
+    //Finds the best path for the largest sum in a pyramid of values.
+    //It's important to note that if you're using eclipse, you need to press CTRL+Z when you have
+    //finished inputing values.
     public static void main(String[] args) {
 
         int numRows = 0;
         String read = "";
         Scanner scan = new Scanner(System.in);
         
-        while(true){
+        while(scan.hasNext()){
             numRows = Integer.parseInt(scan.next());
-            //scan.nextLine();
             makeArray(numRows, scan);
+        }
+        scan.close();
+        for(int i = 0; i < FinalAnswer.size(); i++){
+        	System.out.println(FinalAnswer.get(i)); 
         }
 
 	}
     /**
-     * This method creates the triangle. It initializes everything as -1 to keep track of the empty spaces.
-     * @param rows the length of the rows and columns of the array.
-     * @param scan scans the input for the array
+     * This creates the array of values for the triangle.
+     * @param rows The width and height of the 2D array.
+     * @param scan A Scanner(System.In) passed from the main method.
      */
     public static void makeArray(int rows, Scanner scan){
         int triangle[][] = new int[rows][rows];
+        /**
+         * Marks everything as -1 to keep track of the
+         * unused parts outside the triangle
+         */
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < rows; j++){
                 triangle[i][j] = -1;
             }
         }
+        /**
+         * Fills in the triangle.
+         */
         for(int i = 0; i < rows; i++){
             scan.nextLine();
             for(int j = 0; j < rows; j++){
@@ -65,7 +60,12 @@ public class Main {
         
         
     }
-    
+    /**
+     * Calculates the largest sum and the best path for the triangle.
+     * @param triangle a 2D array that is used to store the values for the triangle.
+     * @param size the length of the rows and columns.
+     * Unused parts of the array have the value -1.
+     */
     public static void findBestPath(int triangle[][], int size){
         int max = 0;
         int maxArr[] = new int[size];
@@ -74,36 +74,45 @@ public class Main {
             temp[i] = triangle[i].clone();
         }
         int maxTri = 0;
-        Stack st = new Stack();
-        Stack fin = new Stack();
+        Stack<Integer> st = new Stack<Integer>();
+        Stack<Integer> fin = new Stack<Integer>();
+        /**
+         * calculates the max sum by working from the bottom up.
+         */
         for(int i = size-2; i >= 0; i--){
             for(int j = 0; j <= i; j++){
                 maxTri = Math.max(triangle[i+1][j], triangle[i+1][j+1]);
-                if(maxTri == triangle[i+1][j]){
-                    st.push(temp[i+1][j]);
-                }else{
-                    st.push(temp[i+1][j+1]);
-                }
                 triangle[i][j] += maxTri;
-                
             }
-            int large = 0;
-            while(!st.isEmpty()){
-                if(large < (int) st.peek()){
-                    large = (int) st.pop();
-                }else{
-                    st.pop();
-                }
-            }
-            fin.push(large);
-            
+           
         }
+        int x = 0;
+        int j = 0;
         fin.push(temp[0][0]);
-        //System.out.println(triangle[0][0]);
+        /**
+         * A clever way to find the path by working backwards using the triangle array
+         * that has been modified to include the max path with it.
+         * It works by subtracting the two values in the original triangle array and compares
+         * them with the values of the modified array. If they match, that is your path!
+         */
+        for(int i = 0; i < size-1; i++){
+            if((triangle[i][j] - temp[i][j] == triangle[i+1][j+1])){
+                j++;
+            }
+            fin.push(temp[i+1][j]);
+        }
         FinalAnswer.add("Max is " + triangle [0][0]);
         String sentence = "";
+        
+        /**
+         * This was needed to flip the stack so output would be correct.
+         * If I had more time, I would make it a queue instead.
+         */
         while(!fin.isEmpty()){
-            sentence += fin.pop()+"-->";
+        	st.push(fin.pop());
+        }
+        while(!st.isEmpty()){
+            sentence += st.pop()+"-->";
         }
         sentence = sentence.substring(0, sentence.length()-3);
         FinalAnswer.add(sentence);
